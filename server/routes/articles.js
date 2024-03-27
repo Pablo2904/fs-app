@@ -27,7 +27,9 @@ router.post("/", verifyToken, (req, res) => {
 
 // Endpoint do pobierania wszystkich artykułów
 router.get("/", (req, res) => {
-  res.status(200).json(articles);
+  setTimeout(() => {
+    res.status(200).json(articles);
+  }, 1500); // 1000 milliseconds (1 second) delay
 });
 
 // Endpoint do usuwania artykułu
