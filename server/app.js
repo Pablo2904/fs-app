@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const corsMiddleware = require("./middleware/corsMiddleware");
+const setupSwagger = require("./middleware/swaggerMd");
 
 const articles = require("./routes/articles");
 const notFound404 = require("./routes/404");
@@ -12,6 +13,7 @@ const app = express();
 const PORT = 5000;
 
 app.use(bodyParser.json());
+app.use(setupSwagger());
 app.use(corsMiddleware);
 
 app.use("/articles", articles);
