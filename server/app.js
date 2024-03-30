@@ -6,22 +6,27 @@ const setupSwagger = require("./middleware/swaggerMd");
 
 const articles = require("./routes/articles");
 const notFound404 = require("./routes/404");
-const settings = require("./routes/settings");
 const login = require("./routes/login");
+const users = require("./routes/users");
+
+require("dotenv").config("../.env");
+const { PORT, NODE_ENV } = process.env;
 
 const app = express();
-const PORT = 5000;
-
 app.use(bodyParser.json());
 app.use(setupSwagger());
 app.use(corsMiddleware);
 
 app.use("/articles", articles);
-app.use("/settings", settings);
-app.use("login", login);
-
+app.use("/login", login);
+app.use("/users", users);
 app.use(notFound404);
 
 app.listen(PORT, () => {
+  console.log("");
+  console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
   console.log(`Serwer Express nasłuchuje na porcie ${PORT}`);
+  console.log(`Tryb: ${NODE_ENV}`);
+  console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+  console.log("");
 });

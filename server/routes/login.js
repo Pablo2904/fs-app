@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const users = require("../mocks/users");
+const Users = require("../models/UserModel");
 const jwt = require("jsonwebtoken");
 
 const SECRET_KEY = "secret";
@@ -39,9 +39,9 @@ const SECRET_KEY = "secret";
  *         description: Unauthorized
  */
 router.post("/", (req, res) => {
-  const { email, password } = req.body;
+  const { email, username, password } = req.body;
   // Search for the user in the mock users data
-  const user = users.find((u) => u.email === email && u.password === password);
+  const user = Users.login(email || username, password);
   if (!user) {
     return res.status(401).json({ message: "Invalid email or password" });
   }

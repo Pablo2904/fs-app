@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const articles = require("../mocks/articles");
 const verifyToken = require("../middleware/authMiddleware");
-
+const Article = require("../models/ArticleModel");
+const User = require("../models/UserModel");
 /**
  * @swagger
  * tags:
@@ -15,25 +15,24 @@ const verifyToken = require("../middleware/authMiddleware");
  * /articles:
  *   post:
  *     summary: Create a new article
- *     description: Create a new article with a title and content
+ *     description: Create a new article with a title, content, and author
  *     tags: [Articles]
- *     parameters:
- *       - in: body
- *         name: article
- *         description: The article to create
+ *     requestBody:
  *         required: true
- *         schema:
- *           type: object
- *           required:
- *             - title
- *             - content
- *           properties:
- *             title:
- *               type: string
- *               description: The title of the article
- *             content:
- *               type: string
- *               description: The content of the article
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 title:
+ *                   type: string
+ *                   description: The title of the article
+ *                 content:
+ *                   type: string
+ *                   description: The content of the article
+ *                 author:
+ *                   type: integer
+ *                   description: The ID of the author
  *     responses:
  *       '201':
  *         description: Successfully created the article
@@ -43,26 +42,34 @@ const verifyToken = require("../middleware/authMiddleware");
  *         description: Unauthorized
  */
 
-// Endpoint do dodawania artykułu
-router.post("/", verifyToken, (req, res) => {
-  const { title, content } = req.body;
-  // Walidacja danych - tutaj możesz dodać bardziej zaawansowaną walidację
-  if (!title || !content) {
+// Endpoint to create a new article
+router.post("/", async (req, res) => {
+  const { title, content, author } = req.body;
+
+  // Validation
+  if (!title || !content || !author) {
     return res
       .status(400)
-      .json({ message: "Tytuł i treść artykułu są wymagane" });
+      .json({ message: "Tytuł, treść artykułu oraz autor są wymagane" });
   }
-  // Tworzenie nowego artykułu
-  const newArticle = {
-    id: articles.length + 1,
-    title,
-    content,
-    author: req.userId,
-  };
-  articles.push(newArticle);
-  res
-    .status(201)
-    .json({ message: "Artykuł został pomyślnie dodany", article: newArticle });
+
+  try {
+    const authorExists = await User.findById(author);
+    if (!authorExists) {
+      return res
+        .status(400)
+        .json({ message: "Autor o podanym ID nie istnieje, stwórz autora!" });
+    }
+
+    const newArticle = await Article.create(title, content, author);
+    res.status(201).json({
+      message: "Artykuł został pomyślnie dodany",
+      article: newArticle,
+    });
+  } catch (error) {
+    console.error("Error creating article:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 
 /**
@@ -76,12 +83,14 @@ router.post("/", verifyToken, (req, res) => {
  *       '200':
  *         description: A list of articles
  */
-
-// Endpoint do pobierania wszystkich artykułów
-router.get("/", (req, res) => {
-  setTimeout(() => {
+router.get("/", async (req, res) => {
+  try {
+    const articles = await Article.getAll();
     res.status(200).json(articles);
-  }, 1500); // 1000 milliseconds (1 second) delay
+  } catch (error) {
+    console.error("Error fetching articles:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 
 /**
@@ -104,17 +113,19 @@ router.get("/", (req, res) => {
  *       '404':
  *         description: Article not found
  */
-
-// Endpoint do usuwania artykułu
-router.delete("/:id", verifyToken, (req, res) => {
+router.delete("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
-  const index = articles.findIndex((article) => article.id === parseInt(id));
-  if (index === -1) {
-    return res.status(404).json({ message: "Artykuł nie został znaleziony" });
+
+  try {
+    const deleted = await Article.deleteById(id);
+    if (!deleted) {
+      return res.status(404).json({ message: "Artykuł nie został znaleziony" });
+    }
+    res.status(200).json({ message: "Artykuł został pomyślnie usunięty" });
+  } catch (error) {
+    console.error("Error deleting article:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
-  // Usunięcie artykułu
-  articles.splice(index, 1);
-  res.status(200).json({ message: "Artykuł został pomyślnie usunięty" });
 });
 
 module.exports = router;
