@@ -12,6 +12,21 @@ const setupSwagger = () => {
         title: "Fullstack API",
         version: "0.0.1",
       },
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: "http",
+            in: "header",
+            name: "Authorization",
+            description: "Bearer Token",
+            scheme: "bearer",
+            bearerFormat: "JWT",
+          },
+        },
+      },
+      security: {
+        bearerAuth: [],
+      },
       servers: [
         {
           url: "http://localhost:5000",
