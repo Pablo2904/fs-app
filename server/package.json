@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "nodemon app.js",
     "production": "node app.js",
-    "migrate:sql": "node-pg-migrate create utc -j sql",
-    "migrate:json": "node-pg-migrate create utc -j js"
+    "migrate:up": "node-pg-migrate up",
+    "migrate-create:sql": "node-pg-migrate create utc -j sql",
+    "migrate-create:json": "node-pg-migrate create utc -j js"
   },
   "author": "",
   "license": "ISC",
