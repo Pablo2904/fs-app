@@ -39,6 +39,7 @@ function App() {
               author:{" "}
               {users.find((user) => user.id === article.author).username}
             </div>
+
             <div>{article.created_at}</div>
             <br />
           </div>
