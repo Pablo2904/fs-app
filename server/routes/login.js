@@ -42,9 +42,13 @@ router.post("/", async (req, res) => {
   try {
     const { email, username, password } = req.body;
     // Search for the user in the mock users data
-    const user = await Users.login(email || username, password);
-    if (!user) {
-      return res.status(401).json({ message: "Invalid email or password" });
+    const user = await Users.findByUsernameOrEmail(username, email);
+    const isPasswordMatch = user && user.password === password;
+
+    if (!user || !isPasswordMatch) {
+      return res
+        .status(401)
+        .json({ message: "Invalid email/username or password" });
     }
     // Generate JWT token
     const token = jwt.sign({ userId: user.id }, SECRET_KEY, {
@@ -52,7 +56,7 @@ router.post("/", async (req, res) => {
     });
     res.status(200).json({ message: "Logged in successfully", token });
   } catch (error) {
-    res.status(500).json({ message: error.message || "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 

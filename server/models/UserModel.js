@@ -87,29 +87,6 @@ User.update = async (id, { username, email, password, gender, age }) => {
   }
 };
 
-User.login = async (usernameOrEmail, password) => {
-  try {
-    const user = await User.findByUsernameOrEmail(
-      usernameOrEmail,
-      usernameOrEmail
-    );
-
-    if (!user) {
-      throw new Error("User not found");
-    }
-
-    // const passwordMatch = await bcrypt.compare(password, user.password);
-    const passwordMatch = password === user.password;
-    if (!passwordMatch) {
-      throw new Error("Invalid password");
-    }
-
-    return user;
-  } catch (error) {
-    throw error;
-  }
-};
-
 User.getAllUsers = async () => {
   try {
     const query = "SELECT * FROM users";
