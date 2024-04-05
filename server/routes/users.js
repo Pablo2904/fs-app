@@ -136,7 +136,7 @@ router.get("/", async (req, res) => {
  * /users/settings:
  *   put:
  *     summary: Update user settings
- *     description: Update user settings such as first name and last name
+ *     description: Update user settings such as username, email, password, gender, and age
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
@@ -147,22 +147,41 @@ router.get("/", async (req, res) => {
  *           schema:
  *             type: object
  *             properties:
- *               firstName:
+ *               username:
  *                 type: string
- *                 description: User's first name
- *               lastName:
+ *                 description: User's username
+ *               email:
  *                 type: string
- *                 description: User's last name
+ *                 format: email
+ *                 description: User's email address
+ *               password:
+ *                 type: string
+ *                 description: User's password
+ *               gender:
+ *                 type: string
+ *                 enum: [male, female, other]
+ *                 description: User's gender
+ *               age:
+ *                 type: integer
+ *                 description: User's age
  *     responses:
  *       '200':
  *         description: Successfully updated user settings
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
  *       '401':
  *         description: Unauthorized
  *       '404':
  *         description: User not found
  */
+
 router.put("/settings", verifyToken, async (req, res) => {
-  const { firstName, lastName } = req.body;
+  const { username, email, password, gender, age } = req.body;
   const userId = req.userId;
 
   try {
@@ -172,16 +191,18 @@ router.put("/settings", verifyToken, async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Update user data
-    user.firstName = firstName || user.firstName;
-    user.lastName = lastName || user.lastName;
-
     // Save the updated user data
-    await user.save();
+    const updatedUser = await User.update(userId, {
+      username,
+      email,
+      password,
+      gender,
+      age,
+    });
 
     res.status(200).json({
       message: "User settings have been successfully updated",
-      user,
+      user: updatedUser,
     });
   } catch (error) {
     console.error("Error updating user settings:", error);
