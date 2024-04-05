@@ -30,3 +30,12 @@ app.listen(PORT, () => {
   console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
   console.log("");
 });
+
+// TODO
+// add rate limiter
+// add express-validator for input validation
+// add helmet for security
+// add redis for caching as container JWT
+// add bcrypt for password hashing
+// add morgan for logging
+// add chache contraoller for caching particular routes

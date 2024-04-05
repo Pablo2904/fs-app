@@ -38,16 +38,22 @@ const SECRET_KEY = "secret";
  *       '401':
  *         description: Unauthorized
  */
-router.post("/", (req, res) => {
-  const { email, username, password } = req.body;
-  // Search for the user in the mock users data
-  const user = Users.login(email || username, password);
-  if (!user) {
-    return res.status(401).json({ message: "Invalid email or password" });
+router.post("/", async (req, res) => {
+  try {
+    const { email, username, password } = req.body;
+    // Search for the user in the mock users data
+    const user = await Users.login(email || username, password);
+    if (!user) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+    // Generate JWT token
+    const token = jwt.sign({ userId: user.id }, SECRET_KEY, {
+      expiresIn: "1h",
+    });
+    res.status(200).json({ message: "Logged in successfully", token });
+  } catch (error) {
+    res.status(500).json({ message: error.message || "Internal Server Error" });
   }
-  // Generate JWT token
-  const token = jwt.sign({ userId: user.id }, SECRET_KEY, { expiresIn: "1h" });
-  res.status(200).json({ message: "Logged in successfully", token });
 });
 
 module.exports = router;
