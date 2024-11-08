@@ -1,0 +1,107 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
+:root {
+  --primary: #d1b133;
+  --secondary: #5e5f64;
+}
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: "Poppins";
+  background: var(--secondary);
+}
+* {
+  color: #fff;
+  margin: 0;
+}
+
+/* Navbar */
+header nav {
+  display: flex;
+  gap: 18px;
+  justify-content: end;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+header nav h1 {
+  margin-right: auto;
+  border-bottom: 3px solid var(--primary);
+}
+
+header nav a {
+  text-decoration: none;
+  padding: 6px;
+  border-radius: 4px;
+}
+header nav a.active {
+  background: var(--primary);
+}
+
+/* page content */
+main {
+  max-width: 1200px;
+  margin: 40px auto;
+}
+
+/*login form*/
+form {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  gap: 2px;
+  border: none;
+}
+
+form input {
+  color: rgb(18, 18, 18);
+}
+
+.login-btn {
+  width: 200px;
+  color: #d1b133;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background-color: #d7d3bb;
+}
+
+/* not found page */
+.img-cat-not-found {
+  width: 500px;
+  margin: 10px;
+}
+
+.homepage-btn :active {
+  color: var(--primary);
+}
+
+/* article details */
+.article-details {
+  margin-top: 40px;
+}
+
+/* Settings Form Login */
+.setting-form-label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.setting-form-label input {
+  color: black;
+  width: 60vh;
+}
+
+.setting-btn {
+  margin-right: 20px;
+  color: var(--primary);
+}
+
+.setting-btn:hover {
+  background-color: #d7d3bb;
+  border: none;
+}

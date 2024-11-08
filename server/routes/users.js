@@ -184,6 +184,9 @@ router.put("/settings", verifyToken, async (req, res) => {
   const { username, email, password, gender, age } = req.body;
   const userId = req.userId;
 
+  console.log(username, email, password, gender, age);
+  console.log(userId);
+
   try {
     // Find the user by ID
     const user = await User.findById(userId);

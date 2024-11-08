@@ -20,6 +20,7 @@ app.use(corsMiddleware);
 app.use("/articles", articles);
 app.use("/login", login);
 app.use("/users", users);
+
 app.use(notFound404);
 
 app.listen(PORT, () => {

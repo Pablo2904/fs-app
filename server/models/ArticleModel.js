@@ -28,6 +28,17 @@ Article.getAll = async () => {
   }
 };
 
+Article.getById = async (id) => {
+  const query = { text: "SELECT * FROM articles WHERE id = $1", values: [id] };
+  try {
+    const result = await pool.query(query);
+    return result.rows;
+  } catch (error) {
+    console.error("Error fetching articles:", error);
+    throw error; // Propagate the error for handling in the controller or service layer
+  }
+};
+
 Article.deleteById = async (id) => {
   const query = {
     text: "DELETE FROM articles WHERE id = $1",
