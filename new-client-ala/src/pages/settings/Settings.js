@@ -2,10 +2,11 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "./AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export const Settings = () => {
   const { user, logout } = useContext(AuthContext);
-  const [name, setName] = useState(user ? user.name : "");
+  const [username, setUsername] = useState(user ? user.username : "");
   const [email, setEmail] = useState(user ? user.email : "");
   const [password, setPassword] = useState("");
 
@@ -15,7 +16,7 @@ export const Settings = () => {
       const response = await axios.put(
         "http://localhost:5000/users/settings",
         {
-          name,
+          username,
           email,
           password,
         },
@@ -25,11 +26,10 @@ export const Settings = () => {
           },
         }
       );
-
-      alert("Dane zaktualizowane pomyślnie");
+      console.log("Dane zaktualizowane pomyślnie");
     } catch (error) {
       console.error("Błąd aktualizacji danych: ", error.message);
-      alert("Wystąpił błąd podczas aktualizacji danych");
+      console.log("Wystąpił błąd podczas aktualizacji danych");
     }
   };
 
@@ -46,8 +46,8 @@ export const Settings = () => {
           Name:
           <input
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </label>
       </div>

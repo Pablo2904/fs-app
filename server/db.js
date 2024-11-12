@@ -1,3 +1,5 @@
+//KONFIGURACJA POŁĄCZEŃ Z BAZĄ DANYCH PostgreSQL
+
 const { Pool } = require("pg");
 
 // Create a pool instance

@@ -83,6 +83,7 @@ router.post("/", async (req, res) => {
  *       '200':
  *         description: A list of articles
  */
+// Endpoint to download all articles
 router.get("/", async (req, res) => {
   try {
     const articles = await Article.getAll();

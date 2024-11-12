@@ -2,6 +2,7 @@
 
 exports.shorthands = undefined;
 
+//tabela comments = przechowuje komentarze userów do artykułów
 exports.up = (pgm) => {
   // Create the new table
   pgm.createTable("comments", {

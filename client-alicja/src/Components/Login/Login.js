@@ -1,20 +1,17 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // Importuje useNavigate
 import { jwtDecode } from "jwt-decode";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "./settings/AuthContext";
 
-export const LoginForm = () => {
-  //walidacja email, hasła
+export const Login = () => {
+  //STAN DOT. WALIDACJI EMAIL, HASŁA
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [touchedEmail, setTouchedEmail] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [touchedPassword, setTouchedPassword] = useState(false);
-
-  //CONTEXT API
-  const { login } = useContext(AuthContext);
+  const navigate = useNavigate(); // Inicjalizacja hooka useNavigate
 
   //WALIDACJA EMAIL
   const handleChangeEmail = (event) => {
@@ -44,8 +41,6 @@ export const LoginForm = () => {
     }
   }, [password, touchedPassword]);
 
-  const navigate = useNavigate();
-
   //OBSŁUGA ZDARZENIA LOGOWANIA - ŻĄDANIE DO SERWERA (axios)
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -63,7 +58,6 @@ export const LoginForm = () => {
         password: password,
       });
 
-      //zapisanie tokenu w pamięci
       localStorage.setItem("token", response.data.token);
 
       const decoddedToken = jwtDecode(response.data.token);
@@ -71,22 +65,23 @@ export const LoginForm = () => {
 
       //obsługa odpowiedzi z serwera
       console.log("Użytkownik zalogowany: ", response.data);
-
-      navigate("/settings"); // Przekierowanie na stronę ustawień profilu po zalogowaniu
+      navigate("/"); // Przekierowanie na stronę główną po zalogowaniu
     } catch (error) {
       //obsługa błędu logowania
       console.error("Błąd logowania: ", error.message);
-
-      //obsługa błędu logowania
-      if (error.response && error.response.status === 401) {
-        alert("Invalid email or password");
-      }
     }
   };
 
   return (
-    <form className="login-form" onSubmit={handleSubmit}>
-      <h1>Logowanie</h1>
+    <form
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: "400px",
+      }}
+      onSubmit={handleSubmit}
+    >
+      <h1>Formularz logowania</h1>
       <input type="text" placeholder="Email" onChange={handleChangeEmail} />
       {emailError && <p style={{ color: "red" }}>{emailError}</p>}
       <input
@@ -98,9 +93,7 @@ export const LoginForm = () => {
       {touchedPassword && passwordError && (
         <p style={{ color: "red" }}>{passwordError}</p>
       )}
-      <button className="login-btn" type="submit">
-        Zaloguj
-      </button>
+      <button type="submit">Zaloguj</button>
     </form>
   );
 };
