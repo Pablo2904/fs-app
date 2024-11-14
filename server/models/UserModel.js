@@ -47,33 +47,33 @@ User.findById = async (id) => {
 
 User.update = async (id, { username, email, password, gender, age }) => {
   try {
-    let updateValues = [];
+    let updateValues = [id]; //Zaczynamy od id jako 1 element
     let updateQuery = "UPDATE users SET";
+    let index = 1; //pierwszy parametr w zapytaniu SQL
 
     if (username !== undefined) {
-      updateQuery += " username = $1,";
+      updateQuery += ` username = $${++index},`;
       updateValues.push(username);
     }
     if (email !== undefined) {
-      updateQuery += " email = $2,";
+      updateQuery += ` email = $${++index},`;
       updateValues.push(email);
     }
     if (password !== undefined) {
-      updateQuery += " password = $3,";
+      updateQuery += ` password = $${++index},`;
       updateValues.push(password);
     }
     if (gender !== undefined) {
-      updateQuery += " gender = $4,";
-      updateValues.push(gender);
+      updateQuery += ` gender = $${++index},`;
     }
     if (age !== undefined) {
-      updateQuery += " age = $5,";
+      updateQuery += ` age = $${++index},`;
       updateValues.push(age);
     }
 
     // Remove the trailing comma and add WHERE condition
-    updateQuery = updateQuery.slice(0, -1) + " WHERE id = $6 RETURNING *";
-    updateValues.push(id);
+    updateQuery = updateQuery.slice(0, -1) + ` WHERE id = $1 RETURNING *`;
+    // updateValues.push(id);
 
     const query = {
       text: updateQuery,

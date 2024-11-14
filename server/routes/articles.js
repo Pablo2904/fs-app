@@ -83,6 +83,7 @@ router.post("/", async (req, res) => {
  *       '200':
  *         description: A list of articles
  */
+// Endpoint to download all articles
 router.get("/", async (req, res) => {
   try {
     const articles = await Article.getAll();
@@ -93,6 +94,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+//Endpoint do usuwania artykułu
 /**
  * @swagger
  * /articles/{id}:
@@ -124,6 +126,42 @@ router.delete("/:id", verifyToken, async (req, res) => {
     res.status(200).json({ message: "Artykuł został pomyślnie usunięty" });
   } catch (error) {
     console.error("Error deleting article:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+//DETAILS ENDPOINT
+/**
+ * @swagger
+ * /articles/{id}:
+ *   get:
+ *     summary: Get article details by ID
+ *     description: Retrieve details of an article by its ID
+ *     tags: [Articles]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         description: ID of the article to retrieve
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       '200':
+ *         description: Details of the article
+ *       '404':
+ *         description: Article not found
+ */
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const article = await Article.getById(id);
+    if (!article) {
+      return res.status(404).json({ message: "Artykuł nie został znaleziony" });
+    }
+    res.status(200).json(article);
+  } catch (error) {
+    console.error("Error fetching article details:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });

@@ -1,3 +1,5 @@
+//DOSTĘP DOMEN DO APLIAKCJI
+
 const cors = require("cors");
 
 const isProduction = process.env.NODE_ENV === "production";

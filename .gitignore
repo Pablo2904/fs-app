@@ -17,3 +17,5 @@ dist/
 
 # Dependency lock files
 package-lock.json
+
+client-alicja/

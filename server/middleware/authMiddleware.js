@@ -1,3 +1,5 @@
+//WERYFIKACJA TOKENÓW JWT
+
 const jwt = require("jsonwebtoken");
 const SECRET_KEY = "secret";
 

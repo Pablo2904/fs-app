@@ -1,3 +1,5 @@
+//KONFIGURACJA SERWERA, MIDDLEWARE, ENDPOINT'ÓW
+
 const express = require("express");
 const bodyParser = require("body-parser");
 
@@ -12,16 +14,20 @@ const users = require("./routes/users");
 require("dotenv").config("../.env");
 const { PORT, NODE_ENV } = process.env;
 
+//konfiguracja aplikacji i middleware
 const app = express();
 app.use(bodyParser.json());
 app.use(setupSwagger());
 app.use(corsMiddleware);
 
+//definiowanie endpointów
 app.use("/articles", articles);
 app.use("/login", login);
 app.use("/users", users);
+
 app.use(notFound404);
 
+//start serwera
 app.listen(PORT, () => {
   console.log("");
   console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
