@@ -26,6 +26,9 @@ import { ArticleError } from "./pages/articles/ArticleError";
 import { ProtectedRoute } from "./pages/settings/ProtectedRoute";
 import { Settings } from "./pages/settings/Settings";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 //funkcja router = router przeglądarki
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -53,7 +56,12 @@ const router = createBrowserRouter(
 );
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />;
+      <ToastContainer toastClassName="custom-toast" />
+    </>
+  );
 }
 
 export default App;

@@ -1,10 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import axios from "axios";
 import { AuthContext } from "./settings/AuthContext";
 import { Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 export const ArticleForm = () => {
   //stany formularza
@@ -36,10 +35,9 @@ export const ArticleForm = () => {
       formErrors.content = "Content must be between 1000 and 5000 characters";
     }
 
-    //validate author
-    if (!author.trim()) {
-      formErrors.author = "Author is required";
-    }
+    // if (!author.trim()) {
+    //   formErrors.author = "Author is required";
+    // }
 
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
@@ -55,7 +53,7 @@ export const ArticleForm = () => {
         const response = await axios.post("http://localhost:5000/articles", {
           title: title.trim(),
           content: content.trim(),
-          author: author.trim(),
+          author: author,
         });
 
         if (response.status === 201) {
@@ -80,7 +78,6 @@ export const ArticleForm = () => {
 
   return (
     <>
-      <ToastContainer toastStyle={{ color: "#000" }} />
       {user ? (
         <form className="article-form">
           <h2 className="add-article-title">Add your article</h2>
