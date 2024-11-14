@@ -14,7 +14,7 @@ import { ArticleLayout } from "./layouts/ArticleLayout";
 //pages
 import { Home } from "./pages/Home";
 import { LoginForm } from "./pages/LoginForm";
-import { Form } from "./pages/Form";
+import { ArticleForm } from "./pages/ArticleForm";
 import { NotFound } from "./pages/NotFound";
 import { ArticleList, articleLoader } from "./pages/articles/ArticleList";
 import {
@@ -33,7 +33,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<RootLayout />}>
         <Route index element={<Home />} />
         <Route path="login" element={<LoginForm />} />
-        <Route path="form" element={<Form />} />
+        <Route path="form" element={<ArticleForm />} />
 
         <Route path="articles" element={<ArticleLayout />}>
           <Route index element={<ArticleList />} loader={articleLoader} />

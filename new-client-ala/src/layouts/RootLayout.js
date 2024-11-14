@@ -1,8 +1,11 @@
 //pasek nawigacyjny
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import { AuthContext } from "../pages/settings/AuthContext";
 
 export const RootLayout = () => {
+  const { user } = useContext(AuthContext);
+
   return (
     <div className="root-layout">
       <header>
@@ -10,8 +13,14 @@ export const RootLayout = () => {
           <h1>APPLICATION FOR ARTICLES</h1>
           <NavLink to="/">Home</NavLink>
           <NavLink to="articles">Available articles</NavLink>
-          <NavLink to="/login">Log in</NavLink>
-          <NavLink to="/form">Submit Article</NavLink>
+          <NavLink to="/form">Add Article</NavLink>
+
+          {/*sprawdzenie, czy user jest zalogowany*/}
+          {user ? (
+            <NavLink to="/settings">User Panel</NavLink>
+          ) : (
+            <NavLink to="/login">Log in</NavLink>
+          )}
         </nav>
       </header>
 

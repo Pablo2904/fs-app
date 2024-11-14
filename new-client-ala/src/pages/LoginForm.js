@@ -63,11 +63,12 @@ export const LoginForm = () => {
         password: password,
       });
 
+      //wywołanie login z AuthContext zamiast zapisu tokenu
+      login(response.data.token);
       //zapisanie tokenu w pamięci
-      localStorage.setItem("token", response.data.token);
-
-      const decoddedToken = jwtDecode(response.data.token);
-      console.log("Dekodowany token: ", decoddedToken);
+      // localStorage.setItem("token", response.data.token);
+      // const decoddedToken = jwtDecode(response.data.token);
+      // console.log("Dekodowany token: ", decoddedToken);
 
       //obsługa odpowiedzi z serwera
       console.log("Użytkownik zalogowany: ", response.data);

@@ -63,6 +63,7 @@ form input {
   border: none;
   border-radius: 3px;
   cursor: pointer;
+  width: 100px;
 }
 
 .login-btn:hover {
@@ -104,4 +105,65 @@ form input {
 .setting-btn:hover {
   background-color: #d7d3bb;
   border: none;
+}
+
+/* Article Form */
+.article-form {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  gap: 16px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #4a4a4a;
+  border-radius: 8px;
+}
+
+.add-article-title {
+  display: flex;
+  justify-content: center;
+}
+
+.article-form textarea {
+  min-height: 150px;
+  min-width: 100%;
+  resize: vertical;
+  color: #5e5f64;
+}
+
+.article-form label {
+  padding-right: 3px;
+}
+
+.add-article-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100px;
+  color: #d1b133;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.add-article-btn:hover {
+  background-color: #d7d3bb;
+}
+
+.not-logged-user {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 100px;
+  font-size: 20px;
+}
+
+.go-to-login-link:hover {
+  color: #d1b133;
+}
+
+.toast-message {
+  color: black !important;
 }

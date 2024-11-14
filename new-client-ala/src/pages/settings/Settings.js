@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export const Settings = () => {
   const { user, logout } = useContext(AuthContext);
+
   const [username, setUsername] = useState(user ? user.username : "");
   const [email, setEmail] = useState(user ? user.email : "");
   const [password, setPassword] = useState("");
@@ -47,7 +48,9 @@ export const Settings = () => {
           <input
             type="text"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
           />
         </label>
       </div>

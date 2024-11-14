@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }) => {
     //sprawdzanie czy token istnieje
     if (token) {
       const decodedToken = jwtDecode(token); //dekodowanie tokena
+      console.log("DEKODOWANY TOKEN: ", decodedToken);
       setUser(decodedToken);
     }
     //false = bo ładowanie danych zakończone
